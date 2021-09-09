@@ -1,4 +1,3 @@
-%matplotlib notebook
 import os, sys
 import logging
 import random
@@ -7,7 +6,6 @@ import shutil
 import time
 import argparse
 import numpy as np
-import sigpy.plot as pl
 import torch
 import sigpy as sp
 import torchvision
@@ -32,8 +30,6 @@ import argparse
 logging.basicConfig(level=logging.INFO)
 logger = logging.getLogger(__name__)
 device = torch.device('cuda:3' if torch.cuda.is_available() else 'cpu')
-%load_ext autoreload
-%autoreload 2
 
 class Namespace:
     def __init__(self, **kwargs):
@@ -131,11 +127,9 @@ for epoch in range(params.epoch):
         optimizer.step()
         avg_loss = 0.99 * avg_loss + 0.01 * loss.item() if iter > 0 else loss.item()
         if iter % 20 == 0:
-            logging.info(
-                f'Epoch = [{epoch:3d}/{params.epoch:3d}] '
-                f'Iter = [{iter:4d}/{len(train_loader):4d}] '
-                f'Loss = {loss.item():.4g} Avg Loss = {avg_loss:.4g}'
-            )
+            print('Epoch = [{epoch:3d}/{params.epoch:3d}] ')
+            print('Iter = [{iter:4d}/{len(train_loader):4d}] ')
+            print('Loss = {loss.item():.4g} Avg Loss = {avg_loss:.4g}')
     #Saving the model
     exp_dir = "checkpoints/"
     torch.save(
